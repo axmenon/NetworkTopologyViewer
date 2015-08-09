@@ -51,5 +51,3 @@ $ grunt
 ```
 
 Network Topology Viewer should run on the 3000 port so in your browser just go to [http://localhost:3000](http://localhost:3000)
-                            
-s
