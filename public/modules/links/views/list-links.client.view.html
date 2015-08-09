@@ -1,0 +1,63 @@
+<section data-ng-controller="LinksController" data-ng-init="find()">
+    <div class="page-header">
+        <h1>Links</h1>
+    </div>
+    <div class="table-responsive">
+        <table ng-table="tableParams" show-filter="true" class='table table-bordered table-striped'>
+            <thead>
+                <tr>
+                    <th>Edit</th>
+                    <th>Near IP</th>
+                    <th>Near Label</th>
+                    <th>Near IfIndex</th>
+                    <th>Far IP</th>
+                    <th>Far Label</th>
+                    <th>Far IfIndex</th>                    
+                    <th>Speed</th>
+                    <th>Duplex</th>
+                </tr>
+            </thead>
+            <tbody class="table-striped">
+                <tr data-ng-repeat="link in links">
+                    <td><a data-ng-href="#!/links/{{link._id}}"><span class="glyphicon glyphicon-edit"></span></a></td>
+                    <td data-ng-bind="link.nearIpAdress.ip"></td>
+                    <td data-ng-bind="link.nearDeviceLabel"></td>
+                    <td data-ng-bind="link.nearIfIndex"></td>
+                    <td data-ng-bind="link.farIpAdress.ip"></td>
+                    <td data-ng-bind="link.farDeviceLabel"></td>
+                    <td data-ng-bind="link.farIfIndex"></td>
+                    <td data-ng-bind="link.speed"></td>
+                    <td data-ng-bind="link.duplex"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="pull-right">
+      <a type="button" class="btn btn-success" href="/#!/links/create">
+        <i class="glyphicon glyphicon-open"></i> New Link
+      </a>
+    </div>
+
+    <!-- <div>
+        <table ng-table="tableParams" show-filter="true">
+            <tr ng-repeat="link in $data">
+                <td data-title="'Name'" sortable="'name'" filter="{ 'name': 'text' }">{{link.name}}</td>
+                <td>
+                    <div class="table-actions">
+                <td>
+                   <div class="table-actions">
+                        <a class="btn btn-default" title="View" href="/#!/links/{{link._id}}">
+                            <span class="glyphicon glyphicon-eye-open"></span>
+                        </a>
+                        <a class="btn btn-default" title="Edit" href="/#!/links/{{link._id}}/edit">
+                            <span class="glyphicon glyphicon-edit"></span>
+                        </a>
+                        <a class="btn btn-danger" title="Remove" ng-really-message="Are you sure ?" ng-really-click="remove(link)" item="link">
+                  				<span class="glyphicon glyphicon-remove-circle"></span>
+                  			</a>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div> -->
+</section>

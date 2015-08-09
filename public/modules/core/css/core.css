@@ -1,0 +1,29 @@
+@font-face {
+    font-family: 'ekmukta-light'; 
+    src: url(/lib/styles/EkMukta-Light.ttf);
+}
+.ng-scope {
+	font-family: 'ekmukta-light';
+}
+.navbar {
+	font-family: 'ekmukta-light';
+}
+.content {
+	margin-top: 50px;
+}
+.undecorated-link:hover {
+	text-decoration: none;
+}
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+	display: none !important;
+}
+.ng-invalid.ng-dirty {
+	border-color: #FA787E;
+}
+.ng-valid.ng-dirty {
+	border-color: #78FA89;
+}
+canvas {
+	height: 900px !important;
+	width: 100%;
+}

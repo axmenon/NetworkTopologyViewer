@@ -1,0 +1,114 @@
+<section data-ng-controller="DevicesController" data-ng-init="findOne()">
+    <div class="page-header">
+        <h2 data-ng-bind="device.leadIpAddress.ip"></h2>
+    </div>
+    <div class="col-md-12">
+        <form name="deviceForm" class="form-horizontal" data-ng-submit="update(deviceForm.$valid)" novalidate>
+            <fieldset>
+                <div class="form-group" ng-class="{ 'has-error' : deviceForm.sysName.$dirty && deviceForm.sysName.$invalid}">
+                    <label class="control-label" for="device.sysName">System Name</label>
+                    <div class="controls">
+                        <input name="sysName" type="text" data-ng-bind="device.sysName" id="sysName" class="form-control" value={{device.sysName}} required>
+                    </div>
+                    <div ng-show="submitted && deviceForm.sysName.$invalid" class="help-block">
+                        <p ng-show="deviceForm.sysName.$error.required" class="text-danger">System Name is required</p>
+                    </div>
+                </div>
+                <div class="form-group" ng-class="{ 'has-error' : deviceForm.sysDescr.$dirty && deviceForm.sysDescr.$invalid}">
+                    <label class="control-label" for="device.sysDescr">System Description</label>
+                    <div class="controls">
+                        <input name="sysDescr" type="text" data-ng-bind="device.sysDescr" id="sysDescr" class="form-control" value={{device.sysDescr}} required>
+                    </div>
+                    <div ng-show="submitted && deviceForm.sysDescr.$invalid" class="help-block">
+                        <p ng-show="deviceForm.sysDescr.$error.required" class="text-danger">System Description is required</p>
+                    </div>
+                </div>
+                <div class="form-group" ng-class="{ 'has-error' : deviceForm.leadIpAddress.type.$dirty && deviceForm.leadIpAddress.type.$invalid}">
+                    <label class="control-label" for="device.leadIpAddress.type">IP Address Type</label>
+                    <div class="controls">
+                        <input name="leadIpAddress.type" type="text" data-ng-bind="device.leadIpAddress.type" id="leadIpAddress.type" class="form-control" value={{device.leadIpAddress.type}} required>
+                    </div>
+                    <div ng-show="submitted && deviceForm.leadIpAddress.type.$invalid" class="help-block">
+                        <p ng-show="deviceForm.leadIpAddress.type.$error.required" class="text-danger">IP Address Type is required</p>
+                    </div>
+                </div>
+                <div class="form-group" ng-class="{ 'has-error' : deviceForm.leadIpAddress.ip.$dirty && deviceForm.leadIpAddress.ip.$invalid}">
+                    <label class="control-label" for="device.leadIpAddress.ip">IP Address</label>
+                    <div class="controls">
+                        <input name="leadIpAddress.ip" ip="text" data-ng-bind="device.leadIpAddress.ip" id="leadIpAddress.ip" class="form-control" value={{device.leadIpAddress.ip}} required>
+                    </div>
+                    <div ng-show="submitted && deviceForm.leadIpAddress.ip.$invalid" class="help-block">
+                        <p ng-show="deviceForm.leadIpAddress.ip.$error.required" class="text-danger">IP Address is required</p>
+                    </div>
+                </div>
+                <div class="form-group" ng-class="{ 'has-error' : deviceForm.deviceType.$dirty && deviceForm.deviceType.$invalid}">
+                    <label class="control-label" for="device.deviceType">Device Type</label>
+                    <div class="controls">
+                        <input name="deviceType" ip="text" data-ng-bind="device.deviceType" id="deviceType" class="form-control" value={{device.deviceType}} required>
+                    </div>
+                    <div ng-show="submitted && deviceForm.deviceType.$invalid" class="help-block">
+                        <p ng-show="deviceForm.deviceType.$error.required" class="text-danger">Device Type is required</p>
+                    </div>
+                </div>
+                <div class="form-group" ng-class="{ 'has-error' : deviceForm.version.$dirty && deviceForm.version.$invalid}">
+                    <label class="control-label" for="device.version">Softare Version</label>
+                    <div class="controls">
+                        <input name="version" ip="text" data-ng-bind="device.version" id="version" class="form-control" value={{device.version}} required>
+                    </div>
+                    <div ng-show="submitted && deviceForm.version.$invalid" class="help-block">
+                        <p ng-show="deviceForm.version.$error.required" class="text-danger">Software Version is required</p>
+                    </div>
+                </div>
+                <div class="checkbox">
+                    <label>
+                        <input data-ng-bind="device.manuallyAdded" type="checkbox" ng-checked="{{device.manuallyAdded}}"> Manually Added
+                    </label>
+                </div>
+                <div class="checkbox">
+                    <label>
+                        <input data-ng-bind="device.reachable" type="checkbox" ng-checked="{{device.reachable}}"> Reachable
+                    </label>
+                </div>
+                <label class="control-label" for="device.interafaceList">Links</label>
+                <div class="table-responsive">
+                    <table class='table table-bordered table-striped'>
+                        <thead>
+                            <tr>
+                                <th>Alive</th>
+                                <th>Type</th>
+                                <th>IP Address</th>
+                                <th>Netmask</th>
+                                <th>Interface Index</th>
+                            </tr>
+                        </thead>
+                        <tbody class="table-striped">
+                            <tr ng-repeat="interface in device.interfaceList.interface">
+                                <td data-ng-bind="interface.alive">
+                                    <div contenteditable>True</div>
+                                </td>
+                                <td data-ng-bind="interface.ipAddress.type">
+                                    <div contenteditable>IPv4</div>
+                                </td>
+                                <td data-ng-bind="interface.ipAddress.ip">
+                                    <div contenteditable>0.0.0.0</div>
+                                </td>
+                                <td data-ng-bind="interface.netmask">
+                                    <div contenteditable>255.255.255.0</div>
+                                </td>
+                                <td data-ng-bind="interface.ifIndex">
+                                    <div contenteditable>10001</div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="form-group">
+                    <input type="submit" class="btn btn-default">
+                </div>
+                <div data-ng-show="error" class="text-danger">
+                    <strong data-ng-bind="error"></strong>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+</section>
