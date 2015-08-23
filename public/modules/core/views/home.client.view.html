@@ -1,5 +1,10 @@
-<section data-ng-controller="HomeController" data-ng-init="discover()">
-    <vis-network ng-model="network_data" options="network_options" on-select="onSelect" on-dblclick="onDoubleClick" on-mouseover="onMouseOver" class="previewNetwork">
-    <div ng-transclude>Testing stuff here</div>
+<section data-ng-controller="HomeController">
+	<div ng-show="!discoverNow" class="jumbotron discover">
+		<button ng-model="discoverNow" ng-click="discover()" value="false" class="btn btn-default btn-lg">
+			<span class="glyphicon glyphicon-search"></span><h2>Discover</h2>
+		</button>
+	</div>
+	<input ng-show="discoverNow" data-ng-model="input" class="form-control input-lg">
+    <vis-network ng-show="discoverNow" ng-model="network_data" options="network_options" on-select="onSelect" class="previewNetwork">
     </vis-network>
 </section>
