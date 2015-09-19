@@ -37,18 +37,18 @@ canvas {
     height:100%;
 }
 .discover {
-	height: 35%;
-	width: 85%;
 	text-align: center;
 }
 span.glyphicon-search {
     font-size: 2em;
 }
 .jumbotron {
-	position: absolute;
 	top: 30%;
 }
 .navbar-content-center {
 	text-align: center;
 	padding-top: 12px;
+}
+.dropdown-toggle {
+	cursor: pointer;
 }

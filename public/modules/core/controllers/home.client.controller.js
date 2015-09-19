@@ -39,7 +39,7 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
 			GREEN = 'green',
 			RED = '#C5000B',
 			ORANGE = 'orange',
-			BLUE = "#2B7CE9",
+			BLUE = '#2B7CE9',
 			GRAY = 'gray',
 			BLACK = '#2B1B17',
 			device, link, newLink, newNode;
@@ -61,29 +61,39 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
 		 */
 
 		$scope.network_options = {
-			"autoResize": "true",
-			"edges": {
-				"smooth": {
-					"forceDirection": "none"
-				},
-				"font": {
-					"face": 'ekmukta-light'
+			autoResize: true,
+			edges: {
+				font: {
+					face: 'ekmukta-light'
 				}
 			},
-			"nodes": {
-				"font": {
-					"face": 'ekmukta-light'
+			nodes: {
+				font: {
+					face: 'ekmukta-light'
 				}
 			},
-			"height": '100%',
-			"width": '100%',
-			"physics": {
-				"barnesHut": {
-					"gravitationalConstant": -2100
+			height: '100%',
+			width: '100%',
+			interaction: {
+				hover: true,
+				keyboard: {
+					enabled: false,
+					speed: {
+						x: 10,
+						y: 10,
+						zoom: 0.02
+					},
+					bindToWindow: true
 				},
-				"timestep": 0.31,
-				"maxVelocity": 102,
-    			"minVelocity": 0.52,
+				multiselect: true
+			},
+			physics: {
+				barnesHut: {
+					gravitationalConstant: -7025
+				},
+				timestep: 0.31,
+				maxVelocity: 102,
+				minVelocity: 0.52,
 			}
 		};
 
@@ -102,15 +112,16 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
 		};
 
 		/**
-		 * [onDblClick description]
+		 * [onDoubleclick description]
 		 * @param  {Object} properties [description]
 		 * @return {[type]}            [description]
 		 */
-		$scope.onDblClick = function(properties) {
+		$scope.onDoubleclick = function(properties) {
 			var selected = $scope.nodes.get(properties.nodes[0]);
-			console.log(selected);
-			// var url = '#!/devices/{{selected._id}}';
-			// $window.open(url);
+			if (selected.id) {
+				var url = '#!/devices/' + selected._id;
+				window.open(url);
+			}
 		};
 
 		/**
@@ -119,10 +130,12 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
 		 * @param  {[type]} properties [description]
 		 * @return {[type]}            [description]
 		 */
-		// $scope.onMouseOver = function(properties) {
-		// 	var mouseOverElement = $scope.nodes.get(properties.nodes[0]);
-		// 	// showToolTip(mouseOverElement);
-		// };
+		$scope.onMouseover = function(properties) {
+			var mouseOverElement = $scope.nodes.get(properties.node);
+			// console.log(mouseOverElement);
+			// mouseOverElement.showPopup();
+			// showToolTip(mouseOverElement);
+		};
 
 		/**
 		 * [discover description]
@@ -135,11 +148,11 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
 					if (device.leadIpAddress) {
 						var imgType;
 						if (parseInt(device.deviceType) > 0 && parseInt(device.deviceType) < 200) {
-							imgType = device.sysName == 'null' ? 'ersNull' : 'ers';
+							imgType = device.sysName === 'null' ? 'ersNull' : 'ers';
 						} else if (parseInt(device.deviceType) > 200) {
-							imgType = device.sysName == 'null' ? 'vspNull' : 'vsp';
+							imgType = device.sysName === 'null' ? 'vspNull' : 'vsp';
 						} else {
-							imgType = 'phone'
+							imgType = 'phone';
 						}
 						newNode = {
 							_id: device._id,
@@ -162,7 +175,7 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
 						length: LENGTH_MAIN,
 						width: WIDTH_SCALE,
 						arrows: 'middle',
-						label: link.nearDeviceLabel + " to " + link.farDeviceLabel
+						label: link.nearDeviceLabel + ' to ' + link.farDeviceLabel
 					};
 					$scope.edges.update(newLink);
 				}

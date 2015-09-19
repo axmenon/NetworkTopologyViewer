@@ -1,4 +1,4 @@
-'use strict';
+/*'use strict';
 
 (function() {
 	// Articles Controller Spec
@@ -167,4 +167,4 @@
 			expect(scope.articles.length).toBe(0);
 		}));
 	});
-}());
+}());*/

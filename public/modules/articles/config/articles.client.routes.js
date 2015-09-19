@@ -1,4 +1,4 @@
-'use strict';
+/*'use strict';
 
 // Setting up route
 angular.module('articles').config(['$stateProvider',
@@ -22,4 +22,4 @@ angular.module('articles').config(['$stateProvider',
 			templateUrl: 'modules/articles/views/edit-article.client.view.html'
 		});
 	}
-]);
+]);*/

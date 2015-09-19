@@ -2,6 +2,8 @@
     <div class="page-header">
         <h1>Links</h1>
     </div>
+    <input type="text" data-ng-model="searchText" class="form-control input-lg" placeholder="Search">
+    <br/>
     <div class="table-responsive">
         <table ng-table="tableParams" show-filter="true" class='table table-bordered table-striped'>
             <thead>
@@ -18,12 +20,12 @@
                 </tr>
             </thead>
             <tbody class="table-striped">
-                <tr data-ng-repeat="link in links">
+                <tr data-ng-repeat="link in links | filter:searchText">
                     <td><a data-ng-href="#!/links/{{link._id}}"><span class="glyphicon glyphicon-edit"></span></a></td>
-                    <td data-ng-bind="link.nearIpAdress.ip"></td>
+                    <td data-ng-bind="link.nearIPAddress.ip"></td>
                     <td data-ng-bind="link.nearDeviceLabel"></td>
                     <td data-ng-bind="link.nearIfIndex"></td>
-                    <td data-ng-bind="link.farIpAdress.ip"></td>
+                    <td data-ng-bind="link.farIPAddress.ip"></td>
                     <td data-ng-bind="link.farDeviceLabel"></td>
                     <td data-ng-bind="link.farIfIndex"></td>
                     <td data-ng-bind="link.speed"></td>

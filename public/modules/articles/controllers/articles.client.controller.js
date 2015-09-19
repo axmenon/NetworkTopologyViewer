@@ -1,4 +1,4 @@
-'use strict';
+/*'use strict';
 
 angular.module('articles').controller('ArticlesController', ['$scope', '$stateParams', '$location', 'Authentication', 'Articles',
 	function($scope, $stateParams, $location, Authentication, Articles) {
@@ -56,4 +56,4 @@ angular.module('articles').controller('ArticlesController', ['$scope', '$statePa
 		};
 
 	}
-]);
+]);*/

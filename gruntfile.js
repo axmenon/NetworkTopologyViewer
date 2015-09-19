@@ -19,7 +19,7 @@ module.exports = function(grunt) {
 				files: watchFiles.serverViews,
 				options: {
 					livereload: true
-				}
+				}	
 			},
 			serverJS: {
 				files: watchFiles.serverJS,
