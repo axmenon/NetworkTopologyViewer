@@ -21,7 +21,7 @@
                 <tr data-ng-repeat="device in devices | orderBy: 'leadIpAddress.ip' | filter:searchText">
                     <td><a data-ng-href="#!/devices/{{device._id}}"><span class="glyphicon glyphicon-edit"></span></a></td>
                     <td data-ng-bind="device.alive"></td>
-                    <td data-ng-bind="device.leadIpAddress.ip"></td>
+                    <td><a target="_blank" data-ng-href="http://{{device.leadIpAddress.ip}}">{{device.leadIpAddress.ip}}</a></td>
                     <td data-ng-bind="device.sysName"></td>
                     <td data-ng-bind="device.deviceType"></td>
                     <td data-ng-bind="device.version"></td>

@@ -41387,7 +41387,13 @@ angular.element(document).ready(function() {
 'use strict';
 
 // Use Applicaion configuration module to register a new module
-ApplicationConfiguration.registerModule('articles');
+// ApplicationConfiguration.registerModule('articles');
+'use strict';
+
+// Use application configuration module to register a new module
+ApplicationConfiguration.registerModule('controller');
+ApplicationConfiguration.registerModule('controller-data');
+
 'use strict';
 
 // Use Applicaion configuration module to register a new module
@@ -41395,8 +41401,17 @@ ApplicationConfiguration.registerModule('core');
 'use strict';
 
 // Use Applicaion configuration module to register a new module
-ApplicationConfiguration.registerModule('users');
+ApplicationConfiguration.registerModule('devices');
 'use strict';
+
+// Use application configuration module to register a new module
+ApplicationConfiguration.registerModule('links');
+
+'use strict';
+
+// Use Applicaion configuration module to register a new module
+ApplicationConfiguration.registerModule('users');
+/*'use strict';
 
 // Configuring the Articles module
 angular.module('articles').run(['Menus',
@@ -41406,8 +41421,8 @@ angular.module('articles').run(['Menus',
 		Menus.addSubMenuItem('topbar', 'articles', 'List Articles', 'articles');
 		Menus.addSubMenuItem('topbar', 'articles', 'New Article', 'articles/create');
 	}
-]);
-'use strict';
+]);*/
+/*'use strict';
 
 // Setting up route
 angular.module('articles').config(['$stateProvider',
@@ -41431,8 +41446,8 @@ angular.module('articles').config(['$stateProvider',
 			templateUrl: 'modules/articles/views/edit-article.client.view.html'
 		});
 	}
-]);
-'use strict';
+]);*/
+/*'use strict';
 
 angular.module('articles').controller('ArticlesController', ['$scope', '$stateParams', '$location', 'Authentication', 'Articles',
 	function($scope, $stateParams, $location, Authentication, Articles) {
@@ -41488,9 +41503,10 @@ angular.module('articles').controller('ArticlesController', ['$scope', '$statePa
 				articleId: $stateParams.articleId
 			});
 		};
+
 	}
-]);
-'use strict';
+]);*/
+/*'use strict';
 
 //Articles service used for communicating with the articles REST endpoints
 angular.module('articles').factory('Articles', ['$resource',
@@ -41502,6 +41518,96 @@ angular.module('articles').factory('Articles', ['$resource',
 				method: 'PUT'
 			}
 		});
+	}
+]);*/
+'use strict';
+
+// Configuring the Devices module
+angular.module('controller').run(['Menus',
+	function(Menus) {
+		// Set top bar menu items
+		Menus.addMenuItem('topbar', 'Register Controller', 'controller');
+	}
+]);
+'use strict';
+
+//Setting up route
+angular.module('controller').config(['$stateProvider',
+	function($stateProvider) {
+		// Controller state routing
+		$stateProvider.
+		state('controller-data', {
+			url: '/controller-data',
+			templateUrl: 'modules/controller/views/controller-data.client.view.html'
+		}).
+		state('controller', {
+			url: '/controller',
+			templateUrl: 'modules/controller/views/controller.client.view.html'
+		});
+	}
+]);
+
+'use strict';
+
+angular.module('controller').controller('ControllerDataController', ['$http', '$scope', 'Restservice',
+	function($http, $scope, Restservice) {
+		$scope.initial = function() {
+			$scope.nodes = {};
+			$scope.config = Restservice.getConfig();
+			$http($scope.config).success(function(response) {
+				$scope.nodes = response;
+				console.log(response);
+			}).error(function(response) {
+				$scope.nodes = response.message;
+			});
+		};
+	}
+]);
+'use strict';
+
+angular.module('controller').controller('ControllerController', ['$scope','$http', '$location', 'Restservice',
+	function($scope, $http, $location, Restservice) {
+		$scope.signin = function() {
+			var USER_CREDENTIALS = $scope.credentials.controllerUsername+':'+$scope.credentials.controllerPassword;
+			var CONTROLLER_IP = $scope.credentials.controllerip;
+			Restservice.setCredentials(USER_CREDENTIALS, CONTROLLER_IP);
+			$location.path('controller-data');
+		};
+
+	}
+]);
+'use strict';
+
+angular.module('controller').factory('Restservice', ['$cookieStore',
+	function($cookieStore) {
+		// Public API
+		return {
+			CONTROLLER_IP: '',
+			USER_CREDENTIALS: '',
+			setCredentials: function(credentials, ip) {
+				this.CONTROLLER_IP = ip;
+				this.USER_CREDENTIALS = credentials;
+				$cookieStore.put('controllerIp', ip);
+				$cookieStore.put('controllerCredentials', credentials);
+
+			},
+			getUserCredentials: function() {
+				return this.USER_CREDENTIALS;
+			},
+			getControllerIp: function() {
+				return this.CONTROLLER_IP;
+			},
+			getConfig: function() {
+				return {
+					method: 'GET',
+					url: 'http://' + $cookieStore.get('controllerIp') + ':8181/restconf/operational/opendaylight-inventory:nodes',
+					headers: {
+						'Content-Type': 'application/json',
+						'Authorization': 'Basic ' + btoa($cookieStore.get('controllerCredentials'))
+					}
+				};
+			}
+		};
 	}
 ]);
 'use strict';
@@ -41520,99 +41626,272 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider',
 		});
 	}
 ]);
-'use strict';
+/**
+ * @description Controller for the Header.
+ * @author Akshay Menon <makshay@avaya.com>
+ */
 
+'use strict';
+/**
+ * Controller: HeaderController
+ * @param  {[type]} $scope         [Header Scope]
+ * @param  {[type]} Authentication [Checks for RBAC]
+ * @param  {[type]} Menus)         {		$scope.authentication [description]
+ * @return {[type]}                [description]
+ */
 angular.module('core').controller('HeaderController', ['$scope', 'Authentication', 'Menus',
 	function($scope, Authentication, Menus) {
 		$scope.authentication = Authentication;
 		$scope.isCollapsed = false;
 		$scope.menu = Menus.getMenu('topbar');
 
+/**
+ * [toggleCollapsibleMenu Toggles the menu collapse on click]
+ * @return {[type]} [description]
+ */
 		$scope.toggleCollapsibleMenu = function() {
 			$scope.isCollapsed = !$scope.isCollapsed;
 		};
 
-		// Collapsing the menu after navigation
+/**
+ * On successful change of state: Collapsing the menu after navigation
+ * @param  {[type]} ) {			$scope.isCollapsed [description]
+ * @return {[type]}   [description]
+ */
 		$scope.$on('$stateChangeSuccess', function() {
 			$scope.isCollapsed = false;
 		});
 	}
 ]);
-'use strict';
+/**
+ * @description Controller for the Home page, includes the vis network and the input box.
+ * @author Akshay Menon <makshay@avaya.com>
+ */
 
-angular.module('core').controller('HomeController', ['$scope', 'Authentication',
-	function($scope, Authentication) {
-		// This provides Authentication context.
+'use strict';
+/**
+ * Controller: HomeController
+ * @param  {[type]} $scope         [description]
+ * @param  {[type]} Authentication [description]
+ * @param  {[type]} Devices        [description]
+ * @param  {[type]} Links          [description]
+ * @return {[type]}                [description]
+ */
+angular.module('core').controller('HomeController', ['$scope', 'Authentication', 'Devices', 'Links',
+	/**
+	 * [description]
+	 * @param  {[type]} $scope         [description]
+	 * @param  {[type]} Authentication [description]
+	 * @param  {[type]} Devices        [description]
+	 * @param  {[type]} Links          [description]
+	 * @return {[type]}                [description]
+	 */
+	function($scope, Authentication, Devices, Links) {
+
+		/**
+		 * [authentication This provides Authentication context.]
+		 * @type {[type]}
+		 */
 		$scope.authentication = Authentication;
+
+		/**
+		 * Local variables used for the configuration of the vis-network.
+		 */
+		var LENGTH_MAIN = 350,
+			LENGTH_SERVER = 150,
+			LENGTH_SUB = 50,
+			WIDTH_SCALE = 2,
+			GREEN = 'green',
+			RED = '#C5000B',
+			ORANGE = 'orange',
+			BLUE = '#2B7CE9',
+			GRAY = 'gray',
+			BLACK = '#2B1B17',
+			device, link, newLink, newNode;
+
+		/**
+		 * Network data comprises of two datasets
+		 * @type {vis}
+		 */
 		$scope.nodes = new vis.DataSet();
 		$scope.edges = new vis.DataSet();
 		$scope.network_data = {
 			nodes: $scope.nodes,
 			edges: $scope.edges
 		};
+
+		/**
+		 * [network_options description]
+		 * @type {Object}
+		 */
+
 		$scope.network_options = {
-			hierarchicalLayout: {
-				direction: 'UD'
+			autoResize: true,
+			edges: {
+				font: {
+					face: 'ekmukta-light'
+				}
+			},
+			nodes: {
+				font: {
+					face: 'ekmukta-light'
+				}
+			},
+			height: '100%',
+			width: '100%',
+			interaction: {
+				hover: true,
+				keyboard: {
+					enabled: false,
+					speed: {
+						x: 10,
+						y: 10,
+						zoom: 0.02
+					},
+					bindToWindow: true
+				},
+				multiselect: true
+			},
+			physics: {
+				barnesHut: {
+					gravitationalConstant: -7025
+				},
+				timestep: 0.31,
+				maxVelocity: 102,
+				minVelocity: 0.52,
 			}
 		};
 
-		$scope.onNodeSelect = function(properties) {
-			var selected = $scope.task_nodes.get(properties.nodes[0]);
-			console.log(selected);
+		/**
+		 * [onSelect description]
+		 * @param  {[type]} properties [description]
+		 * @return {[type]}            [description]
+		 */
+		$scope.onSelect = function(properties) {
+			var selected = $scope.nodes.get(properties.nodes[0]);
+			// console.log(selected);
+			if (selected.id) {
+				var url = '#!/devices/' + selected._id;
+				window.open(url);
+			}
 		};
 
-		$scope.nodes.add([{
-			id: 1,
-			label: 'Node 1'
-		}, {
-			id: 2,
-			label: 'Node 2'
-		}, {
-			id: 3,
-			label: 'Node 3'
-		}, {
-			id: 4,
-			label: 'Node 4'
-		}, {
-			id: 5,
-			label: 'Node 5'
-		}]);
+		/**
+		 * [onDoubleclick description]
+		 * @param  {Object} properties [description]
+		 * @return {[type]}            [description]
+		 */
+		$scope.onDoubleclick = function(properties) {
+			var selected = $scope.nodes.get(properties.nodes[0]);
+			if (selected.id) {
+				var url = '#!/devices/' + selected._id;
+				window.open(url);
+			}
+		};
 
-		$scope.edges.add([{
-			id: 1,
-			from: 1,
-			to: 2
-		}, {
-			id: 2,
-			from: 3,
-			to: 2
-		}]);
+		/**
+		 * [onMouseOver Shows tool-tip for the node/link]
+		 * TODO: Write function to show tooltip.
+		 * @param  {[type]} properties [description]
+		 * @return {[type]}            [description]
+		 */
+		$scope.onMouseover = function(properties) {
+			var mouseOverElement = $scope.nodes.get(properties.node);
+			// console.log(mouseOverElement);
+			// mouseOverElement.showPopup();
+			// showToolTip(mouseOverElement);
+		};
+
+		/**
+		 * [discover description]
+		 * @return {[type]} [description]
+		 */
+		$scope.discover = function() {
+			$scope.discoverNow = true;
+			$scope.devices = Devices.query(function() {
+				for (device in $scope.devices) {
+					if (device.leadIpAddress) {
+						var imgType;
+						if (parseInt(device.deviceType) > 0 && parseInt(device.deviceType) < 200) {
+							imgType = device.sysName === 'null' ? 'ersNull' : 'ers';
+						} else if (parseInt(device.deviceType) > 200) {
+							imgType = device.sysName === 'null' ? 'vspNull' : 'vsp';
+						} else {
+							imgType = 'phone';
+						}
+						newNode = {
+							_id: device._id,
+							id: device.leadIpAddress.ip,
+							image: 'modules/core/img/switches/' + imgType + '.png',
+							shape: 'image',
+							label: device.leadIpAddress.ip,
+							group: device.deviceType,
+							value: device.interfaceList.interface.length
+						};
+						$scope.nodes.update(newNode);
+					}
+				}
+			});
+			$scope.links = Links.query(function() {
+				for (link of $scope.links) {
+					newLink = {
+						from: link.nearIPAddress.ip,
+						to: link.farIPAddress.ip,
+						length: LENGTH_MAIN,
+						width: WIDTH_SCALE,
+						arrows: 'middle',
+						label: link.nearDeviceLabel + ' to ' + link.farDeviceLabel
+					};
+					$scope.edges.update(newLink);
+				}
+			});
+		};
 	}
 ]);
-'use strict';
+/**
+ * @description Cirective: Vis-Network
+ * @author Akshay Menon <makshay@avaya.com>
+ */
 
-angular.module('core').directive('visNetwork', [
+'use strict';
+/**
+ * visNetwork is plugged in to the webpage as a directive.
+ * @param  visNetwork 	 	
+ * @param  {vis}    
+ * @return {[type]}       [description]
+ * @package core
+ */
+angular.module('core').directive('visNetwork',
 	function() {
 		return {
-			template: '<div></div>',
+			restrict: 'E',
 			require: '^ngModel',
+			transclude: true,
 			scope: {
 				ngModel: '=',
 				onSelect: '&',
+				onDoubleclick: '&',
+				onMouseover: '&',
 				options: '='
 			},
-			restrict: 'E',
-			link: function postLink(scope, element, attrs) {
-				var network = new vis.Network($element[0], $scope.ngModel, $scope.options || {});
+			link: function($scope, $element, $attrs) {
+				var network = new vis.Network($element[0], $scope.ngModel, $scope.options);
 				var onSelect = $scope.onSelect() || function(prop) {};
+				var onMouseover = $scope.onMouseover() || function(prop) {};
+				var onDoubleclick = $scope.onDoubleclick() || function(prop) {};
 				network.on('select', function(properties) {
 					onSelect(properties);
 				});
-				console.log('Control inside the directive.');
+				network.on('doubleClick', function(properties) {
+					onDoubleclick(properties);
+				});
+				network.on('hoverNode', function(properties) {
+					onMouseover(properties);
+				});
 			}
 		};
 	}
-]);
+);
 'use strict';
 
 //Menu service used for managing  menus
@@ -41779,6 +42058,296 @@ angular.module('core').service('Menus', [
 		this.addMenu('topbar');
 	}
 ]);
+'use strict';
+
+// Configuring the Devices module
+angular.module('devices').run(['Menus',
+	function(Menus) {
+		// Set top bar menu items
+		Menus.addMenuItem('topbar', 'Devices', 'devices', 'dropdown', '/devices(/create)?');
+		Menus.addSubMenuItem('topbar', 'devices', 'List Devices', 'devices');
+		Menus.addSubMenuItem('topbar', 'devices', 'New Device', 'devices/create');
+	}
+]);
+'use strict';
+
+// Setting up route
+angular.module('devices').config(['$stateProvider',
+	function($stateProvider) {
+		// Devices state routing
+		$stateProvider.
+		state('listDevices', {
+			url: '/devices',
+			templateUrl: 'modules/devices/views/list-devices.client.view.html'
+		}).
+		state('createDevice', {
+			url: '/devices/create',
+			templateUrl: 'modules/devices/views/create-device.client.view.html'
+		}).
+		state('viewDevice', {
+			url: '/devices/:deviceId',
+			templateUrl: 'modules/devices/views/view-device.client.view.html'
+		}).
+		state('editDevice', {
+			url: '/devices/:deviceId/edit',
+			templateUrl: 'modules/devices/views/edit-device.client.view.html'
+		});
+	}
+]);
+'use strict';
+
+angular.module('devices').controller('DevicesController', ['$scope', '$stateParams', '$location', 'Authentication', 'Devices',
+	function($scope, $stateParams, $location, Authentication, Devices) {
+		$scope.authentication = Authentication;
+
+		$scope.create = function() {
+			var device = new Devices({
+				alive: this.alive,
+				interfaceList: {},
+				leadIpAddress: {
+					type: this.leadIpAddress.type,
+					ip: this.leadIpAddress.ip
+				},
+				sysName: this.sysName,
+				sysDescr: this.sysDescr,
+				deviceType: this.deviceType,
+				version: this.version,
+				manuallyAdded: this.manuallyAdded,
+				reachable: this.reachable
+			});
+			device.$save(function(response) {
+				$location.path('devices/' + response._id);
+				$scope.alive = false;
+				$scope.interfaceList = null;
+				$scope.leadIpAddress.type = '';
+				$scope.leadIpAddress.ip = '';
+				$scope.sysName = '';
+				$scope.sysDescr = '';
+				$scope.deviceType = '';
+				$scope.version = '';
+				$scope.manuallyAdded = false;
+				$scope.reachable = false;
+			}, function(errorResponse) {
+				$scope.error = errorResponse.data.message;
+			});
+		};
+
+		$scope.remove = function(device) {
+			if (device) {
+				device.$remove();
+
+				for (var i in $scope.devices) {
+					if ($scope.devices[i] === device) {
+						$scope.devices.splice(i, 1);
+					}
+				}
+			} else {
+				$scope.device.$remove(function() {
+					$location.path('devices');
+				});
+			}
+		};
+
+		$scope.update = function() {
+			var device = $scope.device;
+
+			device.$update(function() {
+				$location.path('devices/' + device._id);
+			}, function(errorResponse) {
+				$scope.error = errorResponse.data.message;
+			});
+		};
+
+		$scope.find = function() {
+			$scope.devices = Devices.query();
+		};
+
+		$scope.findOne = function() {
+			$scope.device = Devices.get({
+				deviceId: $stateParams.deviceId
+			});
+		};
+	}
+]);
+'use strict';
+
+//Devices service used for communicating with the devices REST endpoints
+angular.module('devices').factory('Devices', ['$resource',
+	function($resource) {
+		return $resource('devices/:deviceId', {
+			deviceId: '@_id'
+		}, {
+			update: {
+				method: 'PUT'
+			}
+		});
+	}
+]);
+'use strict';
+
+// Configuring the new module
+angular.module('links').run(['Menus',
+	function(Menus) {
+		// Set top bar menu items
+		Menus.addMenuItem('topbar', 'Links', 'links', 'dropdown', '/links(/create)?');
+		Menus.addSubMenuItem('topbar', 'links', 'List Links', 'links');
+		Menus.addSubMenuItem('topbar', 'links', 'New Link', 'links/create');
+	}
+]);
+
+'use strict';
+
+//Setting up route
+angular.module('links').config(['$stateProvider',
+	function($stateProvider) {
+		// Links state routing
+		$stateProvider.
+		state('listLinks', {
+			url: '/links',
+			templateUrl: 'modules/links/views/list-links.client.view.html'
+		}).
+		state('createLink', {
+			url: '/links/create',
+			templateUrl: 'modules/links/views/create-link.client.view.html'
+		}).
+		state('viewLink', {
+			url: '/links/:linkId',
+			templateUrl: 'modules/links/views/view-link.client.view.html'
+		}).
+		state('editLink', {
+			url: '/links/:linkId/edit',
+			templateUrl: 'modules/links/views/edit-link.client.view.html'
+		});
+	}
+]);
+'use strict';
+
+angular.module('links').controller('LinksController', ['$scope', '$stateParams', '$location', 'Authentication', 'Links',
+	function($scope, $stateParams, $location, Authentication, Links) {
+		$scope.authentication = Authentication;
+
+		$scope.create = function() {
+			var link = new Links({
+				nearIPAddress: {
+					type: this.nearIPAddress.type,
+					ip: this.nearIPAddress.ip
+				},
+				nearDeviceLabel: this.nearDeviceLabel,
+				nearIfIndex: this.nearIfIndex,
+				farIPAddress: {
+					type: this.farIPAddress.type,
+					ip: this.farIPAddress.type
+				},
+				farDeviceLabel: this.farDeviceLabel,
+				farIfIndex: this.farIfIndex,
+				speed: this.speed,
+				duplex: this.duplex
+			});
+			link.$save(function(response) {
+				$location.path('links/' + response._id);
+				$scope.nearIPAddress.type = '';
+				$scope.nearIPAddress.ip = '';
+				$scope.nearDeviceLabel = '';
+				$scope.nearIfIndex = '';
+				$scope.farIPAddress.type = '';
+				$scope.farIPAddress.ip = '';
+				$scope.farDeviceLabel = '';
+				$scope.farIfIndex = '';
+				$scope.speed = '';
+				$scope.duplex = '';
+			}, function(errorResponse) {
+				$scope.error = errorResponse.data.message;
+			});
+		};
+
+		$scope.remove = function(link) {
+			if (link) {
+				link.$remove();
+
+				for (var i in $scope.links) {
+					if ($scope.links[i] === link) {
+						$scope.links.splice(i, 1);
+					}
+				}
+			} else {
+				$scope.link.$remove(function() {
+					$location.path('links');
+				});
+			}
+		};
+
+		$scope.update = function() {
+			var link = $scope.link;
+
+			link.$update(function() {
+				$location.path('links/' + link._id);
+			}, function(errorResponse) {
+				$scope.error = errorResponse.data.message;
+			});
+		};
+
+		$scope.find = function() {
+			$scope.links = Links.query();
+		};
+
+		$scope.findOne = function() {
+			$scope.link = Links.get({
+				linkId: $stateParams.linkId
+			});
+		};
+	}
+]);
+'use strict';
+
+//Links service used to communicate Links REST endpoints
+angular.module('links').factory('Links', ['$resource',
+	function($resource) {
+		return $resource('links/:linkId', {
+			linkId: '@_id'
+		}, {
+			update: {
+				method: 'PUT'
+			}
+		});
+	}
+]);
+(function() {
+    'use strict';
+
+    angular
+        .module('links')
+        .factory('LinksForm', factory);
+
+    function factory() {
+
+      var getFormFields = function(disabled) {
+
+        var fields = [
+  				{
+  					key: 'name',
+  					type: 'input',
+  					templateOptions: {
+  			      label: 'Name:',
+  						disabled: disabled
+  			    }
+  				}
+
+  			];
+
+        return fields;
+
+      };
+
+      var service = {
+        getFormFields: getFormFields
+      };
+
+      return service;
+
+  }
+
+})();
+
 'use strict';
 
 // Config HTTP Error Handling

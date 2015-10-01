@@ -22,10 +22,10 @@
             <tbody class="table-striped">
                 <tr data-ng-repeat="link in links | filter:searchText">
                     <td><a data-ng-href="#!/links/{{link._id}}"><span class="glyphicon glyphicon-edit"></span></a></td>
-                    <td data-ng-bind="link.nearIPAddress.ip"></td>
+                    <td><a target="_blank" data-ng-href="http://{{link.nearIPAddress.ip}}">{{link.nearIPAddress.ip}}</a></td>
                     <td data-ng-bind="link.nearDeviceLabel"></td>
                     <td data-ng-bind="link.nearIfIndex"></td>
-                    <td data-ng-bind="link.farIPAddress.ip"></td>
+                    <td><a target="_blank" data-ng-href="http://{{link.farIPAddress.ip}}">{{link.farIPAddress.ip}}</a></td>
                     <td data-ng-bind="link.farDeviceLabel"></td>
                     <td data-ng-bind="link.farIfIndex"></td>
                     <td data-ng-bind="link.speed"></td>
