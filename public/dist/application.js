@@ -41529,6 +41529,7 @@ angular.module('controller').run(['Menus',
 		Menus.addMenuItem('topbar', 'Register Controller', 'controller');
 	}
 ]);
+
 'use strict';
 
 //Setting up route
@@ -41729,12 +41730,12 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
 			autoResize: true,
 			edges: {
 				font: {
-					face: 'ekmukta-light'
+					face: 'Lato'
 				}
 			},
 			nodes: {
 				font: {
-					face: 'ekmukta-light'
+					face: 'Lato'
 				}
 			},
 			height: '100%',
@@ -41809,7 +41810,7 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
 		$scope.discover = function() {
 			$scope.discoverNow = true;
 			$scope.devices = Devices.query(function() {
-				for (device in $scope.devices) {
+				for (device of $scope.devices) {
 					if (device.leadIpAddress) {
 						var imgType;
 						if (parseInt(device.deviceType) > 0 && parseInt(device.deviceType) < 200) {
@@ -41848,6 +41849,7 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
 		};
 	}
 ]);
+
 /**
  * @description Cirective: Vis-Network
  * @author Akshay Menon <makshay@avaya.com>
@@ -42311,42 +42313,42 @@ angular.module('links').factory('Links', ['$resource',
 		});
 	}
 ]);
-(function() {
-    'use strict';
-
-    angular
-        .module('links')
-        .factory('LinksForm', factory);
-
-    function factory() {
-
-      var getFormFields = function(disabled) {
-
-        var fields = [
-  				{
-  					key: 'name',
-  					type: 'input',
-  					templateOptions: {
-  			      label: 'Name:',
-  						disabled: disabled
-  			    }
-  				}
-
-  			];
-
-        return fields;
-
-      };
-
-      var service = {
-        getFormFields: getFormFields
-      };
-
-      return service;
-
-  }
-
-})();
+// (function() {
+//     'use strict';
+//
+//     angular
+//         .module('links')
+//         .factory('LinksForm', factory);
+//
+//     function factory() {
+//
+//       var getFormFields = function(disabled) {
+//
+//         var fields = [
+//   				{
+//   					key: 'name',
+//   					type: 'input',
+//   					templateOptions: {
+//   			      label: 'Name:',
+//   						disabled: disabled
+//   			    }
+//   				}
+//
+//   			];
+//
+//         return fields;
+//
+//       };
+//
+//       var service = {
+//         getFormFields: getFormFields
+//       };
+//
+//       return service;
+//
+//   }
+//
+// })();
 
 'use strict';
 

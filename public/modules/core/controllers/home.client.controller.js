@@ -64,12 +64,12 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
 			autoResize: true,
 			edges: {
 				font: {
-					face: 'ekmukta-light'
+					face: 'Lato'
 				}
 			},
 			nodes: {
 				font: {
-					face: 'ekmukta-light'
+					face: 'Lato'
 				}
 			},
 			height: '100%',

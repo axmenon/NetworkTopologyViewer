@@ -1,12 +1,8 @@
-@font-face {
-    font-family: 'ekmukta-light'; 
-    src: url(/lib/styles/EkMukta-Light.ttf);
-}
 .ng-scope {
-	font-family: 'ekmukta-light';
+	font-family: 'Lato', sans-serif;
 }
 .navbar {
-	font-family: 'ekmukta-light';
+	font-family: 'Lato', sans-serif;
 }
 .content {
 	margin-top: 50px;
@@ -14,13 +10,14 @@
 .undecorated-link:hover {
 	text-decoration: none;
 }
-[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
-	display: none !important;
+/*[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {*/
+.ng-cloak, .x-ng-cloak {
+	display: none;
 }
-.ng-invalid.ng-dirty {
+.ng-invalid .ng-dirty {
 	border-color: #FA787E;
 }
-.ng-valid.ng-dirty {
+.ng-valid .ng-dirty {
 	border-color: #78FA89;
 }
 html,body,section {
@@ -28,6 +25,7 @@ html,body,section {
 }
 .previewNetwork {
 	height: 100%;
+	max-width: 100%;
 }
 canvas {
 	position:absolute;
@@ -37,11 +35,18 @@ canvas {
     height:100%;
 }
 .discover {
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	transform: translate(-50%, -50%);
 	text-align: center;
 }
-span.glyphicon-search {
-    font-size: 2em;
+.form-control {
+	border-radius: 999em;
+	margin: inherit;
+	text-align: center;
 }
+
 .jumbotron {
 	top: 30%;
 }
@@ -51,4 +56,20 @@ span.glyphicon-search {
 }
 .dropdown-toggle {
 	cursor: pointer;
+}
+
+.button-green{
+	border-radius: 999em;
+	background-color: #00ab6b;
+	border-color: #00ab6b;
+	color: #FFF;
+}
+
+.button-green:hover {
+    background-color: #006600;
+		color: #FFF;
+}
+
+.button-green:active {
+    border: none;
 }

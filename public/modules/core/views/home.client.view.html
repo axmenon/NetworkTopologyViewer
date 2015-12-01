@@ -1,11 +1,16 @@
 <section data-ng-controller="HomeController">
 	<br/>
 	<div ng-show="!discoverNow" class="jumbotron discover">
-		<button ng-model="discoverNow" ng-click="discover()" value="false" class="btn btn-default btn-lg">
-			<span class="glyphicon glyphicon-search"></span><h2>Discover</h2>
-		</button>
+		<label for="seedip">Seed IP</label>
+		<input class="form-control" type="text" placeholder="10.10.10.10">
+		<div>
+			<a ng-model="discoverNow" ng-click="discover()" value="false" class="btn button-green">
+				<span class="glyphicon glyphicon-search"></span>&nbsp&nbsp<span>Discover</span>
+			</a>
+		</div>
 	</div>
 	<input ng-show="discoverNow" data-ng-model="input" class="form-control input-lg" placeholder="Search">
     <vis-network ng-show="discoverNow" ng-model="network_data" options="network_options" on-doubleclick="onDoubleclick" on-mouseover="onMouseover" class="previewNetwork">
     </vis-network>
 </section>
+ 
