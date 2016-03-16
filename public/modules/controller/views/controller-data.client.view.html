@@ -1,0 +1,35 @@
+<section data-ng-controller="ControllerDataController" data-ng-init="initial()">
+  <div class="page-header">
+    <h1>Opendaylight Controller<a class="btn button-green pull-right" ng-click="onViewInTopologyClick(checkedItems)">View in Topology</a></h1>
+  </div>
+  <input type="text" data-ng-model="searchText" class="form-control input-lg" placeholder="Search">
+  </br>
+  <div class="table-responsive">
+    <table class='table table-bordered table-striped'>
+      <thead>
+        <tr>
+          <th><input type="checkbox" ng-click="selectAllFilteredItems()"></th>
+          <th>Openflow ID</th>
+          <th>Description</th>
+          <th>Hardware</th>
+          <th>IP Address</th>
+          <th>Manufacturer</th>
+          <th>Serial Number</th>
+          <th>Software Version</th>
+        </tr>
+      </thead>
+      <tbody class="table-striped">
+        <tr data-ng-repeat="node in nodes.nodes.node | filter:searchText">
+          <td><input type="checkbox" ng-model="item.selected"></td>
+          <td data-ng-bind="node.id"></td>
+          <td data-ng-bind="node['flow-node-inventory:description']"></td>
+          <td data-ng-bind="node['flow-node-inventory:hardware']"></td>
+          <td data-ng-bind="node['flow-node-inventory:ip-address']"></td>
+          <td data-ng-bind="node['flow-node-inventory:manufacturer']"></td>
+          <td data-ng-bind="node['flow-node-inventory:serial-number']"></td>
+          <td data-ng-bind="node['flow-node-inventory:software']"></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>

@@ -1,0 +1,35 @@
+<section class="row" data-ng-controller="ControllerController">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <div class="panel-title">
+                <h3 align="center">Register the controller</h3>
+            </div>
+        </div>
+        <div class="panel-body">
+            <div class="col-xs-offset-2 col-xs-8 col-md-offset-5 col-md-2">
+                <form data-ng-submit="signin()" class="signin form-horizontal" autocomplete="off">
+                    <fieldset>
+                        <div class="form-group">
+                            <label for="controllerip">Controller IP</label>
+                            <input type="text" id="controllerip" name="controllerip" class="form-control" data-ng-model="credentials.controllerip" placeholder="IP Address">
+                        </div>
+                        <div class="form-group">
+                            <label for="controllerUsername">Controller Username</label>
+                            <input type="text" id="controllerUsername" name="controllerUsername" class="form-control" data-ng-model="credentials.controllerUsername" placeholder="Username">
+                        </div>
+                        <div class="form-group">
+                            <label for="controllerPassword">Controller Password</label>
+                            <input type="password" id="controllerPassword" name="controllerPassword" class="form-control" data-ng-model="credentials.controllerPassword" placeholder="Password">
+                        </div>
+                        <div class="text-center form-group">
+                            <button type="submit" class="btn button-green">Register</button>
+                        </div>
+                        <div data-ng-show="error" class="text-center text-danger">
+                            <strong data-ng-bind="error"></strong>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
